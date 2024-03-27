@@ -1,8 +1,10 @@
 fn decode_bencoded_value(encoded_value: &str) -> serde_json::Value {
     if let Some(n) =  encoded_value
-        .strip_prefix('i') 
-        .and_then(|rest| rest.split_once('e')) 
-        .and_then(|(digits, _)| digits.parse::<i64>().ok()) 
+        .strip_prefix('i') // cut out the 'i' and get the rest of the text
+        .and_then(|rest| rest.split_once('e'))  // split the string by and get the number from the
+        // string
+        .and_then(|(digits, _)| digits.parse::<i64>().ok())  // convert the string number to an
+    // actual interger
     {
         return n.into(); // convert the i64 to serde_json::Value
     } 

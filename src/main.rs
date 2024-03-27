@@ -1,5 +1,4 @@
 fn decode_bencoded_value(encoded_value: &str) -> (serde_json::Value, &str) {
-
     match encoded_value.chars().next() {
         Some('i') => {
             if let Some((n, rest)) =  encoded_value
@@ -15,12 +14,18 @@ fn decode_bencoded_value(encoded_value: &str) -> (serde_json::Value, &str) {
         }
 
         Some('l') => {
-            let mut values = Vec::new();
-            let mut rest = encoded_value.split_at(1).1;
+            // Example  of list li25e3:fooe
+            let mut values = Vec::new(); // create an empty vec/list
+            let mut rest = encoded_value.split_at(1).1; // get rest of list from the letter 'l',
+            // in this case it will  i25e3:fooe
+            // println!("REST of List: {}",rest.starts_with('e'));
 
+            // first check that rest &str is not empty and it doesnt start with e
             while !rest.is_empty() && !rest.starts_with('e') {
+                // println!("REST of List: {rest}");
                 let (v, remainder) = decode_bencoded_value(rest);
-                values.push(v);
+                println!("v: {v} remainder: {remainder}");
+                values.push(v); // saves decoded values of the list into a vector
                 rest = remainder;
             }
             

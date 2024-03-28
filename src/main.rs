@@ -1,7 +1,7 @@
-// version is the file version.rs
-mod  parse_bencode;
+// version is the file parse_bencode.rs
+mod parse_bencode;
 
-// from file version import function decode_bencoded_value
+// from file parse_bencode (parse_bencode.rs) import function decode_bencoded_value
 use parse_bencode::decode_bencoded_value;
 
 fn main() {

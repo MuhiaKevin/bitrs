@@ -1,10 +1,8 @@
-pub mod parse; // parse here is the folder
+// version is the file version.rs
+mod  parse_bencode;
 
-// parse => is the folder
-// parse_bencode => is the module 
-// decode_bencoded_value => is the function being imported
-use parse::parse_bencode::decode_bencoded_value;
-
+// from file version import function decode_bencoded_value
+use parse_bencode::decode_bencoded_value;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();

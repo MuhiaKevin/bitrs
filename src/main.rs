@@ -1,8 +1,8 @@
 use std::path::PathBuf;
 use clap::{Parser, Subcommand};
 // use sha1::{Digest, Sha1};
-use bitrs::*;
-
+use bitrs::torrent::Torrent;
+// use bitrs::tracker::TrackerRequest;
 
 
 #[derive(Debug, Parser)]

@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+use sha1::{Digest, Sha1};
 pub use hashes::Hashes;
 
 use serde::{Deserialize, Serialize};
@@ -15,6 +17,24 @@ pub struct Torrent {
     pub announce: String,
     pub info: Info,
 }
+
+
+impl Torrent {
+    pub fn open(torrent: PathBuf) -> Self {
+        let dot_torrent = std::fs::read(torrent).unwrap();
+        let t: Torrent = serde_bencode::from_bytes(&dot_torrent).unwrap();
+        t
+    }
+
+    pub fn info_hash(&self) -> [u8; 20] {
+        let info_bencode = serde_bencode::to_bytes(&self.info).expect("re-encode info section");
+        let mut hasher = Sha1::new();
+
+        hasher.update(&info_bencode);
+        hasher.finalize().into()
+    }
+}
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Info {
    pub name: String,
@@ -27,6 +47,8 @@ pub struct Info {
     pub keys: Keys,
 }
 
+
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(untagged)]
 pub enum Keys{
@@ -38,11 +60,15 @@ pub enum Keys{
     },
 }
 
+
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct File {
     pub length: usize,
     pub path: Vec<String>,
 }
+
+
 
 
 pub fn decode_bencoded_value(encoded_value: &str) -> (serde_json::Value, &str) {

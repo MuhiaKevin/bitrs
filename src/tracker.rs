@@ -4,7 +4,6 @@ use peers::Peers;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct TrackerRequest {
-    pub info_hash: [u8; 20],
     pub peer_id: String,
     pub port: u16,
     pub uploaded: usize,
@@ -16,8 +15,8 @@ pub struct TrackerRequest {
 
 #[derive(Deserialize, Clone, Debug)]
 pub struct TrackerResponse {
-    interval: usize,
-    peers: Peers,
+    pub interval: usize,
+    pub peers: Peers,
 }
 
 
